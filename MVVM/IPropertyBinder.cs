@@ -1,3 +1,4 @@
+using System;
 using System.Linq.Expressions;
 
 public interface IPropertyBinder : IDisposable
@@ -8,7 +9,7 @@ public interface IPropertyBinder : IDisposable
         TTarget target,
         Expression<Func<TTarget, object>> targetProperty,
         BindingWay mode = BindingWay.TwoWay,
-        IValueConverter converter = null);  // Добавлен конвертер
+        IValueConverter? converter = null);  // Добавлен конвертер
 
     void Unbind(IBinding binding);
 }

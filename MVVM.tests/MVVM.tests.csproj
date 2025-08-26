@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+    <ProjectReference Include="..\MVVM\MVVM.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CLD.MVVM\MVVM.csproj" />
+    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
 </Project>
