@@ -1,12 +1,6 @@
-﻿using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
-using MVVM.Dev;
-using System;
-using System.Collections.Generic;
+﻿using MVVM.Dev;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MVVM.tests
 {
@@ -390,8 +384,6 @@ namespace MVVM.tests
             CollectionChanged?.Invoke(this, e);
         }
     }
-
-
     public class TextProperty : IBindableProperty<string>
     {
         private string _value = string.Empty;
