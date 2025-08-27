@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace MVVM
 {
@@ -43,11 +42,54 @@ namespace MVVM
         public View()
         {
             field = new Field();
+            NumsList = new CollectionProperty<int>();
+            SubmitField = new SubmitField();
         }
 
+        public CollectionProperty<int> NumsList { get; }
+
         public Field field { get; }
+
+        public SubmitField SubmitField { get; }
     }
 
+    public class CollectionProperty<T> : IBindableCollectionProperty<T>
+    {
+        private ObservableCollection<T> _value = new ObservableCollection<T>();
+
+        public ObservableCollection<T> Value
+        {
+            get => _value;
+            set
+            {
+                if (_value != value)
+                {
+                    if (_value != null)
+                    {
+                        _value.CollectionChanged -= OnCollectionChanged;
+                    }
+
+                    _value = value ?? new ObservableCollection<T>();
+                    _value.CollectionChanged += OnCollectionChanged;
+
+                    ValueChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
+        public event EventHandler? ValueChanged;
+
+        public CollectionProperty()
+        {
+            _value.CollectionChanged += OnCollectionChanged;
+        }
+
+        private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            CollectionChanged?.Invoke(this, e);
+        }
+    }
     public class TextProperty : IBindableProperty<string>
     {
         private string _value = string.Empty;
@@ -59,9 +101,14 @@ namespace MVVM
         }
 
         public event EventHandler? ValueChanged;
+
+        public TextProperty(string value)
+        {
+            _value = value;
+        }
         public TextProperty()
         {
-            
+
         }
 
         public void SetValue(string value)
@@ -79,7 +126,6 @@ namespace MVVM
         }
     }
 
-
     public class Field
     {
         private readonly TextProperty TextProperty;
@@ -89,6 +135,7 @@ namespace MVVM
         public Field()
         {
             TextProperty = new TextProperty();
+            TextProperty.ValueChanged += (s, e) => OnTextChanged();
         }
 
         protected virtual void OnTextChanged()
@@ -96,6 +143,38 @@ namespace MVVM
             TextChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public string Text { get => TextProperty.Value; set => TextProperty.SetValue(value); }
+        public string Text
+        {
+            get => TextProperty.Value;
+            set => TextProperty.SetValue(value);
+        }
+    }
+
+    public class SubmitField
+    {
+        public TextProperty TextProperty { get; }
+
+        public event EventHandler? TextChanged;
+
+        public SubmitField()
+        {
+            TextProperty = new TextProperty();
+        }
+
+        public void Submit()
+        {
+            OnTextChanged();
+        }
+
+        protected virtual void OnTextChanged()
+        {
+            TextChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public string Text
+        {
+            get => TextProperty.Value;
+            set => TextProperty.SetValue(value);
+        }
     }
 }

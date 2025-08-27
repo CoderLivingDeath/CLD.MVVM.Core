@@ -328,8 +328,6 @@ namespace MVVM.tests
         }
     }
 
-
-
     public class View
     {
         public View()
