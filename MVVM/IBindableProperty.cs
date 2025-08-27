@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.Dev
+namespace MVVM
 {
     public interface IBindableProperty<T>
     {

@@ -1,5 +1,4 @@
-﻿using MVVM.Dev;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace MVVM.tests
