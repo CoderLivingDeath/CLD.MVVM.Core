@@ -16,7 +16,7 @@ namespace MVVM.tests
         public BindablePropertiesTests() { }
 
         [TestMethod]
-        public void InitialValue_ShouldBeEmptyString()
+        public void TextProperty_InitialValue_ShouldBeEmptyString()
         {
             // Arrange
             var textProperty = new TextProperty();
@@ -26,7 +26,7 @@ namespace MVVM.tests
         }
 
         [TestMethod]
-        public void SettingValue_ShouldRaiseValueChangedEvent()
+        public void TextProperty_SetValue_ShouldRaiseValueChangedEvent()
         {
             // Arrange
             var textProperty = new TextProperty();
@@ -49,7 +49,7 @@ namespace MVVM.tests
         }
 
         [TestMethod]
-        public void SettingSameValue_ShouldNotRaiseValueChangedEvent()
+        public void TextProperty_SetSameValue_ShouldNotRaiseValueChangedEvent()
         {
             // Arrange
             var textProperty = new TextProperty();
@@ -69,7 +69,7 @@ namespace MVVM.tests
         }
 
         [TestMethod]
-        public void InvokeChange_ShouldRaiseValueChangedEventWithoutValueChange()
+        public void TextProperty_InvokeChange_ShouldRaiseValueChangedEvent()
         {
             // Arrange
             var textProperty = new TextProperty();
@@ -88,7 +88,7 @@ namespace MVVM.tests
         }
 
         [TestMethod]
-        public void SetValueMethod_ShouldChangeValueAndRaiseEvent()
+        public void TextProperty_SetValueMethod_ShouldUpdateValueAndRaiseEvent()
         {
             // Arrange
             var textProperty = new TextProperty();
@@ -112,7 +112,7 @@ namespace MVVM.tests
         }
 
         [TestMethod]
-        public void AddItem_ShouldRaiseCollectionChanged()
+        public void CollectionProperty_AddItem_ShouldRaiseCollectionChangedEvent()
         {
             // Arrange
             var collectionProperty = new CollectionProperty<int>();
@@ -134,7 +134,7 @@ namespace MVVM.tests
         }
 
         [TestMethod]
-        public void SetNewCollection_ShouldRaiseValueChangedAndSubscribeEvents()
+        public void CollectionProperty_SetNewCollection_ShouldRaiseValueChangedAndSubscribeCollectionChanged()
         {
             // Arrange
             var collectionProperty = new CollectionProperty<int>();
@@ -161,7 +161,7 @@ namespace MVVM.tests
         }
 
         [TestMethod]
-        public void ValueSetter_DoesNotRaiseValueChanged_WhenSameCollectionAssigned()
+        public void CollectionProperty_SetSameCollection_ShouldNotRaiseValueChangedEvent()
         {
             // Arrange
             var collectionProperty = new CollectionProperty<int>();
@@ -181,21 +181,20 @@ namespace MVVM.tests
 
 
     [TestClass]
-    public class ViewTests
+    public class ViewSampleTests
     {
+        // Тесты для Field и CollectionProperty внутри View
+
         [TestMethod]
         public void Field_TextProperty_ShouldRaiseTextChangedWhenTextChanges()
         {
-            // Arrange
             var view = new View();
             bool eventRaised = false;
 
             view.field.TextChanged += (s, e) => eventRaised = true;
 
-            // Act
             view.field.Text = "new text";
 
-            // Assert
             Assert.IsTrue(eventRaised, "TextChanged event должен сработать при изменении Text.");
             Assert.AreEqual("new text", view.field.Text);
         }
@@ -203,7 +202,6 @@ namespace MVVM.tests
         [TestMethod]
         public void Field_TextProperty_ShouldNotRaiseTextChangedWhenTextSetSameValue()
         {
-            // Arrange
             var view = new View();
 
             bool eventRaised = false;
@@ -213,17 +211,14 @@ namespace MVVM.tests
 
             eventRaised = false;
 
-            // Act - задать то же значение
             view.field.Text = "same text";
 
-            // Assert
             Assert.IsFalse(eventRaised, "TextChanged событие не должно вызваться, если текст не изменился.");
         }
 
         [TestMethod]
         public void CollectionProperty_ShouldRaiseCollectionChanged_AndValueChanged()
         {
-            // Arrange
             var view = new View();
 
             bool collectionChangedRaised = false;
@@ -239,10 +234,8 @@ namespace MVVM.tests
 
             view.NumsList.ValueChanged += (s, e) => valueChangedRaised = true;
 
-            // Act
             view.NumsList.Value.Add(42);
 
-            // Assert
             Assert.IsTrue(collectionChangedRaised, "CollectionChanged событие должно вызваться при добавлении элемента.");
             Assert.IsFalse(valueChangedRaised, "ValueChanged событие не вызывается при изменении содержимого коллекции.");
         }
@@ -250,17 +243,14 @@ namespace MVVM.tests
         [TestMethod]
         public void CollectionProperty_SetNewCollection_ShouldRaiseValueChanged()
         {
-            // Arrange
             var view = new View();
 
             bool valueChangedRaised = false;
             view.NumsList.ValueChanged += (s, e) => valueChangedRaised = true;
 
-            // Act
             var newCollection = new System.Collections.ObjectModel.ObservableCollection<int>() { 1, 2, 3 };
             view.NumsList.Value = newCollection;
 
-            // Assert
             Assert.IsTrue(valueChangedRaised, "ValueChanged должна сработать при замене коллекции.");
             CollectionAssert.AreEqual(new int[] { 1, 2, 3 }, view.NumsList.Value);
         }
@@ -268,50 +258,39 @@ namespace MVVM.tests
         [TestMethod]
         public void CollectionProperty_SetSameCollection_DoesNotRaiseValueChanged()
         {
-            // Arrange
             var view = new View();
             bool valueChangedRaised = false;
 
             var currentCollection = view.NumsList.Value;
             view.NumsList.ValueChanged += (s, e) => valueChangedRaised = true;
 
-            // Act
             view.NumsList.Value = currentCollection;
 
-            // Assert
             Assert.IsFalse(valueChangedRaised, "ValueChanged не должна сработать при присвоении той же коллекции.");
         }
-    }
 
-    [TestClass]
-    public class SubmitFieldTests
-    {
+        // Тесты для SubmitField
+
         [TestMethod]
         public void Submit_ShouldRaiseTextChangedEvent()
         {
-            // Arrange
             var submitField = new SubmitField();
             bool eventRaised = false;
 
             submitField.TextChanged += (s, e) => eventRaised = true;
 
-            // Act
             submitField.Submit();
 
-            // Assert
             Assert.IsTrue(eventRaised, "Событие TextChanged должен быть вызвано при вызове Submit()");
         }
 
         [TestMethod]
         public void SettingText_ShouldChangeTextPropertyValue()
         {
-            // Arrange
             var submitField = new SubmitField();
 
-            // Act
             submitField.Text = "Hello";
 
-            // Assert
             Assert.AreEqual("Hello", submitField.TextProperty.Value);
             Assert.AreEqual("Hello", submitField.Text);
         }
@@ -319,30 +298,23 @@ namespace MVVM.tests
         [TestMethod]
         public void ChangingText_DoesNotRaiseTextChangedEvent()
         {
-            // Arrange
             var submitField = new SubmitField();
             bool eventRaised = false;
 
             submitField.TextChanged += (s, e) => eventRaised = true;
 
-            // Act
             submitField.Text = "Hi";
 
-            // Assert
             Assert.IsFalse(eventRaised, "Событие TextChanged не должно вызываться при изменении текста напрямую");
         }
-    }
 
-    [TestClass]
-    public class ViewSubmitFieldIntegrationTests
-    {
+        // Тесты интеграции SubmitField внутри View
+
         [TestMethod]
         public void View_SubmitField_ShouldBeInitialized()
         {
-            // Arrange & Act
             var view = new View();
 
-            // Assert
             Assert.IsNotNull(view.SubmitField);
             Assert.IsNotNull(view.SubmitField.TextProperty);
         }
@@ -350,7 +322,6 @@ namespace MVVM.tests
         [TestMethod]
         public void View_SubmitField_SubmitEventTriggered()
         {
-            // Arrange
             var view = new View();
             bool eventRaised = false;
 
@@ -358,13 +329,12 @@ namespace MVVM.tests
 
             Assert.IsFalse(eventRaised);
 
-            // Act
             view.SubmitField.Submit();
 
-            // Assert
             Assert.IsTrue(eventRaised, "Событие TextChanged SubmitField должно сработать из View");
         }
     }
+
 
 
     public class View
