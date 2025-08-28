@@ -2,9 +2,16 @@
 
 namespace MVVM
 {
+    public class ValueChangedEventArgs<T> : EventArgs
+    {
+        public T NewValue { get; }
+
+        public ValueChangedEventArgs(T newValue) => NewValue = newValue;
+    }
+
     public interface IBindableProperty<T>
     {
         T Value { get; set; }
-        event EventHandler ValueChanged;
+        event EventHandler<ValueChangedEventArgs<T>>? ValueChanged;
     }
 }
