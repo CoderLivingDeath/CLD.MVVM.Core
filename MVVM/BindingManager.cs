@@ -3,26 +3,41 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace MVVM
 {
-    public class BindingManager
+    public class BindingManager : IDisposable
     {
         public HashSet<IBinding> Bindings { get; } = new HashSet<IBinding>();
+
+        private bool _disposed = false;
+
+        private readonly SynchronizationContext? _syncContext;
+
+        public BindingManager(SynchronizationContext? syncContext = null)
+        {
+            _syncContext = syncContext;
+        }
+
 
         public IPropertyBinding<TTargetType, TSource, TSourceType> Bind<TTargetType, TSource, TSourceType>(
             IBindableProperty<TTargetType> property,
             TSource source,
             Expression<Func<TSource, TSourceType>> dependencyProperty,
             BindingMode bindingMode = BindingMode.TwoWay,
-            IValueConverter<TTargetType, TSourceType>? converter = null, CultureInfo? cultureInfo = null, object? ConvertionParam = null) where TSource : INotifyPropertyChanged
+            IValueConverter<TTargetType, TSourceType>? converter = null,
+            CultureInfo? cultureInfo = null,
+            object? ConvertionParam = null) where TSource : INotifyPropertyChanged
         {
+            if (_disposed) throw new ObjectDisposedException(nameof(BindingManager));
+
             if (property == null) throw new ArgumentNullException(nameof(property));
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dependencyProperty == null) throw new ArgumentNullException(nameof(dependencyProperty));
 
-            var binding = new PropertyBinding<TTargetType, TSource, TSourceType>(property, source, dependencyProperty, bindingMode, converter);
-            binding.CultureInfo = cultureInfo != null ? cultureInfo : CultureInfo.InvariantCulture;
+            var binding = new PropertyBinding<TTargetType, TSource, TSourceType>(property, source, dependencyProperty, bindingMode, converter, _syncContext);
+            binding.CultureInfo = cultureInfo ?? CultureInfo.InvariantCulture;
             binding.ConvertionParam = ConvertionParam;
 
             binding.Bind();
@@ -32,17 +47,45 @@ namespace MVVM
             return binding;
         }
 
-        // Можно добавить методы для очистки всех привязок, удаления привязки и т.п.
-
+        /// <summary>
+        /// Освобождает все привязки и очищает коллекцию.
+        /// </summary>
         public void DisposeAll()
         {
+            if (_disposed) return;
+
             foreach (var binding in Bindings)
             {
                 binding.Dispose();
             }
             Bindings.Clear();
         }
+
+        /// <summary>
+        /// Закрывает менеджер и освобождает ресурсы.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed) return;
+
+            if (disposing)
+            {
+                // Освобождаем управляемые ресурсы
+                DisposeAll();
+            }
+
+            // Нет неуправляемых ресурсов — ничего дополнительно не нужно
+
+            _disposed = true;
+        }
     }
+
 
 
     //public class PropertyBinding<TTarget, TSource> : IBinding, IDisposable

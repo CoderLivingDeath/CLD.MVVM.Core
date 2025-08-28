@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace MVVM
 {
@@ -28,6 +29,8 @@ namespace MVVM
 
         private PropertyInfo? _sourcePropertyInfo;
 
+        private readonly SynchronizationContext? _syncContext;
+
         private bool _isDisposed;
 
         public PropertyBinding(
@@ -35,7 +38,8 @@ namespace MVVM
             TSource source,
             Expression<Func<TSource, TSourceType>> sourcePropertyExpression,
             BindingMode bindingMode = BindingMode.TwoWay,
-            IValueConverter<TTargetType, TSourceType>? converter = null)
+            IValueConverter<TTargetType, TSourceType>? converter = null,
+            SynchronizationContext? synchronizationContext = null)
         {
             Property = property ?? throw new ArgumentNullException(nameof(property));
             Source = source ?? throw new ArgumentNullException(nameof(source));
@@ -43,9 +47,12 @@ namespace MVVM
             BindingMode = bindingMode;
             Converter = converter;
 
+            _syncContext = synchronizationContext ?? SynchronizationContext.Current;
+
             _sourcePropertyInfo = GetPropertyInfo(SourcePropertyExpression)
                                   ?? throw new ArgumentException("sourcePropertyExpression must point to a property.");
         }
+
 
         private PropertyInfo? GetPropertyInfo(Expression<Func<TSource, TSourceType>> expression)
         {
@@ -107,7 +114,6 @@ namespace MVVM
             if (_sourcePropertyInfo == null)
                 return;
 
-            // Получаем значение типа TSourceType из Source
             var sourceValue = (TSourceType)_sourcePropertyInfo.GetValue(Source)!;
 
             TTargetType targetValue;
@@ -118,19 +124,18 @@ namespace MVVM
             }
             else
             {
-                // Пробуем явно привести, если нет конвертера
                 if (sourceValue is TTargetType castedValue)
-                {
                     targetValue = castedValue;
-                }
                 else
-                {
-                    // Если невозможно привести, то можно кидать исключение или использовать default
                     targetValue = default!;
-                }
             }
 
-            Property.Value = targetValue;
+            void SetValue() => Property.Value = targetValue;
+
+            if (_syncContext != null)
+                _syncContext.Post(_ => SetValue(), null);
+            else
+                SetValue();
         }
 
         private void UpdateSourceFromProperty()
@@ -149,17 +154,19 @@ namespace MVVM
             else
             {
                 if (targetValue is TSourceType castedValue)
-                {
                     sourceValue = castedValue;
-                }
                 else
-                {
                     sourceValue = default!;
-                }
             }
 
-            _sourcePropertyInfo.SetValue(Source, sourceValue);
+            void SetValue() => _sourcePropertyInfo.SetValue(Source, sourceValue);
+
+            if (_syncContext != null)
+                _syncContext.Post(_ => SetValue(), null);
+            else
+                SetValue();
         }
+
 
         public void Dispose()
         {

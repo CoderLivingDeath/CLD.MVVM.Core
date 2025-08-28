@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace MVVM
 {
-    public interface IPropertyBinding<TTargetType, TSource, TSourceType> where TSource : INotifyPropertyChanged
+    public interface IPropertyBinding<TTargetType, TSource, TSourceType> : IBinding where TSource : INotifyPropertyChanged
     {
         BindingMode BindingMode { get; }
         IValueConverter<TTargetType, TSourceType>? Converter { get; }
