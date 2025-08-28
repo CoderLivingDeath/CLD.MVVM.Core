@@ -1,8 +1,8 @@
-﻿using CLD.MVVM.Tests.Components;
+﻿using CLD.MVVM.Core.Tests.Components;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace CLD.MVVM.Tests
+namespace CLD.MVVM.Core.Tests
 {
     [TestClass]
     public class BindablePropertiesTests

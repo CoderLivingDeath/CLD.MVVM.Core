@@ -1,9 +1,9 @@
-﻿using CLD.MVVM.ConvertersLibrary.Generic;
-using CLD.MVVM.Tests.Components;
+﻿using CLD.MVVM.Core.ConvertersLibrary.Generic;
+using CLD.MVVM.Core.Tests.Components;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-namespace CLD.MVVM.Tests
+namespace CLD.MVVM.Core.Tests
 {
     public class View
     {

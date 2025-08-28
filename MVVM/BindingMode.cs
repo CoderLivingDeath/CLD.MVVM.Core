@@ -1,5 +1,5 @@
 
-namespace CLD.MVVM
+namespace CLD.MVVM.Core
 {
     public enum BindingMode
     {

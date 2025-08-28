@@ -1,10 +1,10 @@
-﻿using CLD.MVVM.Interfaces;
+﻿using CLD.MVVM.Core.Interfaces;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace CLD.MVVM.Tests.Components
+namespace CLD.MVVM.Core.Tests.Components
 {
     public abstract class ViewModelBase : IViewMode
     {

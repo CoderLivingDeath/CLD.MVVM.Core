@@ -1,6 +1,6 @@
 using System;
 
-namespace CLD.MVVM.Interfaces
+namespace CLD.MVVM.Core.Interfaces
 {
     public interface IBinding : IDisposable
     {

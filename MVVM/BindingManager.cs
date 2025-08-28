@@ -1,4 +1,4 @@
-﻿using CLD.MVVM.Interfaces;
+﻿using CLD.MVVM.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Threading;
 
-namespace CLD.MVVM
+namespace CLD.MVVM.Core
 {
     public class BindingManager : IDisposable
     {

@@ -1,4 +1,4 @@
-﻿using CLD.MVVM.Interfaces;
+﻿using CLD.MVVM.Core.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Globalization;
@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 
-namespace CLD.MVVM
+namespace CLD.MVVM.Core
 {
     public class PropertyBinding<TTargetType, TSource, TSourceType> : IPropertyBinding<TTargetType, TSource, TSourceType>, IBinding, IDisposable where TSource : INotifyPropertyChanged
     {

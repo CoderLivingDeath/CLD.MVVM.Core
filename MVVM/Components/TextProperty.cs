@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CLD.MVVM.Components
+namespace CLD.MVVM.Core.Components
 {
     public class TextProperty : IBindableProperty<string>
     {

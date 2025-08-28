@@ -1,7 +1,7 @@
-﻿using CLD.MVVM.ConvertersLibrary;
+﻿using CLD.MVVM.Core.ConvertersLibrary;
 using System.Globalization;
 
-namespace CLD.MVVM.Tests
+namespace CLD.MVVM.Core.Tests
 {
     [TestClass]
     public class ValueConvertersTests

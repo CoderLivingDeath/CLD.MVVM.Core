@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CLD.MVVM
+namespace CLD.MVVM.Core
 {
     public class ValueChangedEventArgs<T> : EventArgs
     {

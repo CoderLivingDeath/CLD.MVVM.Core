@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace CLD.MVVM.Interfaces
+namespace CLD.MVVM.Core.Interfaces
 {
     public interface IValueConverter
     {
