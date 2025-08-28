@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MVVM\CLD.MVVM.Core.csproj" />
+    <ProjectReference Include="..\CLD.MVVM.Core\CLD.MVVM.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
