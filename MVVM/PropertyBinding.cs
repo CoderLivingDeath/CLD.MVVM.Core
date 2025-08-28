@@ -1,15 +1,12 @@
-﻿using MVVM.ConvertersLibrary;
+﻿using CLD.MVVM.Interfaces;
 using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading;
 
-namespace MVVM
+namespace CLD.MVVM
 {
     public class PropertyBinding<TTargetType, TSource, TSourceType> : IPropertyBinding<TTargetType, TSource, TSourceType>, IBinding, IDisposable where TSource : INotifyPropertyChanged
     {

@@ -1,9 +1,9 @@
-﻿using MVVM.ConvertersLibrary.Generic;
-using MVVM.tests.Components;
+﻿using CLD.MVVM.ConvertersLibrary.Generic;
+using CLD.MVVM.Tests.Components;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-namespace MVVM.tests
+namespace CLD.MVVM.Tests
 {
     public class View
     {
@@ -167,7 +167,7 @@ namespace MVVM.tests
     public class BindingManagerTests
     {
         [TestMethod]
-        public void Binding_Valid_PropertToSource()
+        public void Binding_Valid_PropertyToSource()
         {
             BindingManager bindingManager = new BindingManager();
             View view = new View();

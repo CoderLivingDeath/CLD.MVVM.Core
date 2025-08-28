@@ -1,8 +1,9 @@
-﻿using System;
+﻿using CLD.MVVM.Interfaces;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace MVVM.Components
+namespace CLD.MVVM.Components
 {
     public class CollectionProperty<T> : IBindableCollectionProperty<T>
     {

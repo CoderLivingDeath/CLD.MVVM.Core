@@ -1,7 +1,8 @@
-﻿using System;
+﻿using CLD.MVVM.Interfaces;
+using System;
 using System.Globalization;
 
-namespace MVVM.ConvertersLibrary
+namespace CLD.MVVM.ConvertersLibrary
 {
     // Converter for int
     public class IntConverter : IValueConverter

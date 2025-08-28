@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CLD.MVVM.Interfaces;
+using System;
 using System.Globalization;
-using System.Text;
 
-namespace MVVM.ConvertersLibrary.Generic
+namespace CLD.MVVM.ConvertersLibrary.Generic
 {
     // Converter for int
     public class IntConverter : IValueConverter<string, int>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MVVM.Interfaces
+namespace CLD.MVVM.Interfaces
 {
     public interface IViewMode : INotifyPropertyChanged
     {

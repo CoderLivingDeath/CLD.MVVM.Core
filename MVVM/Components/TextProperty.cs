@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace MVVM.Components
+namespace CLD.MVVM.Components
 {
     public class TextProperty : IBindableProperty<string>
     {
         private readonly object _sync = new object();
         protected string _value = string.Empty;
 
-        string IBindableProperty<string>.Value
+        public string Value
         {
             get
             {
@@ -19,7 +19,7 @@ namespace MVVM.Components
             }
         }
 
-        private event EventHandler<ValueChangedEventArgs<string>>? _valueChanged;
+        public event EventHandler<ValueChangedEventArgs<string>>? ValueChanged;
 
         event EventHandler<ValueChangedEventArgs<string>>? IBindableProperty<string>.ValueChanged
         {
@@ -27,14 +27,14 @@ namespace MVVM.Components
             {
                 lock (_sync)
                 {
-                    _valueChanged += value;
+                    ValueChanged += value;
                 }
             }
             remove
             {
                 lock (_sync)
                 {
-                    _valueChanged -= value;
+                    ValueChanged -= value;
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace MVVM.Components
 
             if (changed && emitEvent)
             {
-                _valueChanged?.Invoke(this, new ValueChangedEventArgs<string>(newValue));
+                ValueChanged?.Invoke(this, new ValueChangedEventArgs<string>(newValue));
             }
 
             return changed;

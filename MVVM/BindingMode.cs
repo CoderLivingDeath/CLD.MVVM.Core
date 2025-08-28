@@ -1,10 +1,12 @@
-using System;
 
-public enum BindingMode
+namespace CLD.MVVM
 {
-    None,
-    OneWay,
-    TwoWay,
-    OneWayToSource,
-    OneTime
+    public enum BindingMode
+    {
+        None,
+        OneWay,
+        TwoWay,
+        OneWayToSource,
+        OneTime
+    }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq.Expressions;
 
-namespace MVVM
+namespace CLD.MVVM.Interfaces
 {
     public interface IPropertyBinding<TTargetType, TSource, TSourceType> : IBinding where TSource : INotifyPropertyChanged
     {

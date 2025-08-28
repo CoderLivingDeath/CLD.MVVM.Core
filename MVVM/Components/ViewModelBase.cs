@@ -1,12 +1,11 @@
-﻿using MVVM.Interfaces;
+﻿using CLD.MVVM.Interfaces;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 
-namespace MVVM.Components
+namespace CLD.MVVM.Components
 {
-    public abstract class ViewModel : IViewMode
+    public abstract class ViewModelBase : IViewMode
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

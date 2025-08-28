@@ -1,15 +1,10 @@
-﻿using MVVM.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using CLD.MVVM.Interfaces;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MVVM.tests.Components
+namespace CLD.MVVM.Tests.Components
 {
     public abstract class ViewModelBase : IViewMode
     {

@@ -1,10 +1,8 @@
-﻿using System;
+﻿using CLD.MVVM.Tests.Components;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MVVM.tests.Components;
 
-namespace MVVM.tests
+namespace CLD.MVVM.Tests
 {
     [TestClass]
     public class BindablePropertiesTests
